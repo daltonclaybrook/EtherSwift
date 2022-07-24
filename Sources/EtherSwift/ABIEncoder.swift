@@ -31,21 +31,21 @@ struct ABIEncoder {
 
 	/// Encode and return the call data for the contract function
 	mutating func encodeCallData() throws -> [Byte] {
-		var headBytes: [Byte] = []
+		headBytes = []
 		tailBytes = []
 		for argument in arguments {
-			let head = try argument.encodedHead(tailOffset: tailOffset)
-			guard head.count == argument.headLength else {
+			let initialHeadCount = headBytes.count
+			try argument.encode(with: &self)
+			let encodedHeadCount = headBytes.count - initialHeadCount
+			guard encodedHeadCount == argument.headLength else {
 				throw ABIEncodingError.invalidHeadBytes(argument)
 			}
-			headBytes += head
-			try argument.encodeTail(encoder: &self)
 		}
 		return function.selector + headBytes + tailBytes
 	}
 
 	/// Append to the head portion of the call data
-	mutating func appendToHead(bytes: [Byte]) throws {
+	mutating func appendToHead(bytes: [Byte]) {
 		headBytes += bytes
 	}
 

@@ -1,3 +1,7 @@
+enum ArrayError: Error {
+	case invalidUnderlyingArray
+}
+
 struct FixedArray<T: ABIType>: ABIType {
 	/// The encoded type name of the elements in this array. Each instance of `T` is
 	/// expected to return this same value from `encodedTypeName`.
@@ -16,14 +20,12 @@ struct FixedArray<T: ABIType>: ABIType {
 		return underlying.map(\.headLength).reduce(0, +)
 	}
 
-	func encodedHead(tailOffset: Int) throws -> [Byte] {
-		assert(underlying.count == length, "Underlying array is invalid")
-		return try underlying.reduce([]) { result, element in
-			try result + element.encodedHead(tailOffset: tailOffset)
+	func encode(with encoder: inout ABIEncoder) throws {
+		guard underlying.count == length else {
+			throw ArrayError.invalidUnderlyingArray
 		}
-	}
-
-	func encodeTail(encoder: inout ABIEncoder) throws {
-		<#code#>
+		for element in underlying {
+			try element.encode(with: &encoder)
+		}
 	}
 }

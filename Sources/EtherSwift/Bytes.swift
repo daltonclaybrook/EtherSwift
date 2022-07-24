@@ -26,8 +26,8 @@ struct Bytes32: RawRepresentable, ABIType {
 	let encodedTypeName = "bytes32"
 	let headLength = 32
 
-	func encodedHead(tailOffset: Int) throws -> [Byte] {
-		rawValue
+	func encode(with encoder: inout ABIEncoder) throws {
+		encoder.appendToHead(bytes: rawValue)
 	}
 }
 

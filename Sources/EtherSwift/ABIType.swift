@@ -4,11 +4,8 @@ protocol ABIType: Encodable {
 	/// The length of the encoded head in bytes. Most primitive types will return
 	/// 32, but some types may return a higher number, such as fixed-length arrays.
 	var headLength: Int { get }
-	/// Encode the head portion of the value
-	func encodedHead(tailOffset: Int) throws -> [Byte]
-	/// Encode the tail portion of the value and invoke `appendTailBytes` on the provided
-	/// encoder with the encoded bytes.
-	func encodeTail(encoder: inout ABIEncoder) throws
+	/// Encode the value by invoking the "head" and "tail" methods on the provided encoder
+	func encode(with encoder: inout ABIEncoder) throws
 }
 
 extension ABIType {

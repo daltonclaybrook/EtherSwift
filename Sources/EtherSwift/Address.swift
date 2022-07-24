@@ -55,8 +55,8 @@ extension Address: ABIType {
 	var encodedTypeName: String { "address" }
 	var headLength: Int { 32 }
 
-	func encodedHead(tailOffset: Int) throws -> [Byte] {
-		bytes.leftPadded(totalBytes: 32)
+	func encode(with encoder: inout ABIEncoder) throws {
+		encoder.appendToHead(bytes: bytes.leftPadded(totalBytes: 32))
 	}
 }
 
