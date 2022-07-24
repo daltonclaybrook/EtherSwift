@@ -63,10 +63,15 @@ private func checksumEncode(bytes: [Byte]) throws -> String {
 	let address = bytes.toHexString().lowercased()
 	var hasher = SHA3(variant: .keccak256)
 	let hashed = try hasher.finish(withBytes: Array(address.utf8)).toHexString().lowercased()
-	let checksumAddress = hashed.map { character in
-		let stringCharacter = String(character)
-		guard let intValue = Int(stringCharacter, radix: 16) else { return stringCharacter }
-		return intValue >= 8 ? stringCharacter.uppercased() : stringCharacter
-	}.joined()
-	return "0x" + checksumAddress
+
+	var checksumAddress = "0x"
+	for (index, character) in address.enumerated() {
+		let hashedIndex = hashed.index(hashed.startIndex, offsetBy: index)
+		let hashedCharacter = hashed[hashedIndex]
+		let intValue = Int(String(hashedCharacter), radix: 16) ?? 0
+		let toAppend = intValue >= 8 ? character.uppercased() : String(character)
+		checksumAddress.append(toAppend)
+	}
+
+	return checksumAddress
 }
