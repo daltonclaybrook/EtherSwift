@@ -42,6 +42,14 @@ extension Address {
 	}
 }
 
+extension Address: ABIType {
+	static var encodedTypeName: String { "address" }
+
+	func encodedHead(tailOffset: Int) throws -> Bytes32 {
+		Bytes32(rawValue: bytes.leftPadded(totalBytes: 32))
+	}
+}
+
 private func checksumEncode(bytes: [Byte]) throws -> String {
 	let address = bytes.toHexString().lowercased()
 	var hasher = SHA3(variant: .keccak256)
