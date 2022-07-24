@@ -9,12 +9,12 @@ extension String: ABIType {
 		guard let stringData = data(using: .utf8) else {
 			throw ABIEncodingError.failedToEncode(self)
 		}
-		
-		encoder.appendToHead(bytes: Bytes32(encoder.tailOffset).rawValue)
-		encoder.appendToTail(value: stringData.count)
+
+		try encoder.appendStatic(value: encoder.tailOffset)
+		try encoder.appendDynamic(value: stringData.count)
 
 		let amountToPad = 32 - stringData.count % 32
 		let stringBytes = Array(stringData).rightPadded(totalBytes: stringData.count + amountToPad)
-		try encoder.appendToTail(bytes: stringBytes)
+		try encoder.appendDynamic(bytes: stringBytes)
 	}
 }

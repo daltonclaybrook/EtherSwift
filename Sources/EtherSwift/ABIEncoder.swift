@@ -3,7 +3,7 @@ import BigInt
 enum ABIEncodingError: Error {
 	case failedToEncode(ABIType)
 	case invalidHeadBytes(ABIType)
-	case invalidTailAlignment
+	case invalidCallDataAlignment
 }
 
 struct ABIEncoder {
@@ -44,21 +44,49 @@ struct ABIEncoder {
 		return function.selector + headBytes + tailBytes
 	}
 
-	/// Append to the head portion of the call data
-	mutating func appendToHead(bytes: [Byte]) {
-		headBytes += bytes
+	/// Append encoded static data to the call data. This is usually added to the
+	/// "head" portion of the call data, but can be added to the "tail" portion instead
+	/// if the static type being encoded is the child of a dynamic type, e.g. static
+	/// elements of a dynamic array.
+	mutating func appendStatic(bytes: [Byte]) throws {
+		guard bytes.count % 32 == 0 else {
+			throw ABIEncodingError.invalidCallDataAlignment
+		}
+
+		if tailStack >= 1 {
+			tailBytes += bytes
+		} else {
+			headBytes += bytes
+		}
 	}
 
-	/// Append to the tail portion of call data.
-	mutating func appendToTail(bytes: [Byte]) throws {
+	/// Append encoded data to the "tail" portion of the call data
+	mutating func appendDynamic(bytes: [Byte]) throws {
 		guard bytes.count % 32 == 0 else {
-			throw ABIEncodingError.invalidTailAlignment
+			throw ABIEncodingError.invalidCallDataAlignment
 		}
 		tailBytes += bytes
 	}
 
-	/// Append to the tail portion of call data.
-	mutating func appendToTail<T: BinaryInteger>(value: T) {
-		tailBytes += BigUInt(value).serialize().leftPadded(totalBytes: 32)
+	private var tailStack = 0
+
+	/// Calling `appendStatic` from within the provided block ensures that the bytes
+	/// will be appended to the tail, not the head
+	mutating func ensureTail(block: (inout ABIEncoder) throws -> Void) rethrows {
+		tailStack += 1
+		try block(&self)
+		tailStack -= 1
+	}
+}
+
+extension ABIEncoder {
+	/// Convenience for appending an integer
+	mutating func appendStatic<T: BinaryInteger>(value: T) throws {
+		try appendStatic(bytes: value.leftPadded32Bytes)
+	}
+
+	/// Convenience for appending an integer
+	mutating func appendDynamic<T: BinaryInteger>(value: T) throws {
+		try appendDynamic(bytes: value.leftPadded32Bytes)
 	}
 }

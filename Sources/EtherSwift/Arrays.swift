@@ -2,6 +2,7 @@ enum ArrayError: Error {
 	case invalidUnderlyingArray
 }
 
+/// A fixed-length array, e.g. `string[3]`
 struct FixedArray<T: ABIType>: ABIType {
 	/// The encoded type name of the elements in this array. Each instance of `T` is
 	/// expected to return this same value from `encodedTypeName`.
@@ -26,6 +27,33 @@ struct FixedArray<T: ABIType>: ABIType {
 		}
 		for element in underlying {
 			try element.encode(with: &encoder)
+		}
+	}
+}
+
+/// A variable-length array, e.g. `uint32[]`
+struct VariableArray<T: ABIType>: ABIType {
+	/// The encoded type name of the elements in this array. Each instance of `T` is
+	/// expected to return this same value from `encodedTypeName`.
+	let elementEncodedTypeName: String
+	/// The underlying storage for the variable array
+	var underlying: [T] = []
+
+	var encodedTypeName: String {
+		"\(elementEncodedTypeName)[]"
+	}
+
+	/// Variable arrays are considered dynamic types, and thus have a static head length
+	/// of 32, which contains the tail offset of the dynamic data
+	let headLength = 32
+
+	func encode(with encoder: inout ABIEncoder) throws {
+		try encoder.appendStatic(bytes: encoder.tailOffset.leftPadded32Bytes)
+		try encoder.appendDynamic(value: underlying.count)
+		try encoder.ensureTail { encoder in
+			for element in underlying {
+				try element.encode(with: &encoder)
+			}
 		}
 	}
 }
