@@ -40,6 +40,15 @@ extension Address {
 		self.string = try checksumEncode(bytes: bytes)
 		self.hasValidChecksum = true
 	}
+
+	/// Return a version of this same address with a valid checksum-encoded string
+	func makeChecksumEncoded() throws -> Address {
+		if hasValidChecksum {
+			return self
+		} else {
+			return try Address(bytes: bytes)
+		}
+	}
 }
 
 extension Address: ABIType {
