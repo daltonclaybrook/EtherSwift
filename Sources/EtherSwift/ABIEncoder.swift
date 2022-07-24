@@ -9,18 +9,23 @@ enum ABIEncodingError: Error {
 struct ABIEncoder {
 	let function: ContractFunction
 	let arguments: [ABIType]
+	/// The total length of the head data not including the function selector
+	let totalHeadLength: Int
 
 	/// The current tail offset. The next byte added to tail will have this offset.
 	var tailOffset: Int {
-		arguments.count * 32 + tailBytes.count
+		totalHeadLength + tailBytes.count
 	}
 
+	/// The head bytes that have been encoded up to this point
+	private var headBytes: [Byte] = []
 	/// The tail bytes that have been encoded up to this point
 	private var tailBytes: [Byte] = []
 
 	init(function: ContractFunction, arguments: [ABIType]) throws {
 		self.function = function
 		self.arguments = arguments
+		self.totalHeadLength = arguments.map(\.headLength).reduce(0, +)
 		try function.validate(arguments: arguments)
 	}
 
@@ -30,13 +35,18 @@ struct ABIEncoder {
 		tailBytes = []
 		for argument in arguments {
 			let head = try argument.encodedHead(tailOffset: tailOffset)
-			guard head.rawValue.count == 32 else {
+			guard head.count == argument.headLength else {
 				throw ABIEncodingError.invalidHeadBytes(argument)
 			}
-			headBytes += head.rawValue
+			headBytes += head
 			try argument.encodeTail(encoder: &self)
 		}
 		return function.selector + headBytes + tailBytes
+	}
+
+	/// Append to the head portion of the call data
+	mutating func appendToHead(bytes: [Byte]) throws {
+		headBytes += bytes
 	}
 
 	/// Append to the tail portion of call data.

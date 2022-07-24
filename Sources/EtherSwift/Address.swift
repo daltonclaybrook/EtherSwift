@@ -52,13 +52,15 @@ extension Address {
 }
 
 extension Address: ABIType {
-	static var encodedTypeName: String { "address" }
+	var encodedTypeName: String { "address" }
+	var headLength: Int { 32 }
 
-	func encodedHead(tailOffset: Int) throws -> Bytes32 {
-		Bytes32(rawValue: bytes.leftPadded(totalBytes: 32))
+	func encodedHead(tailOffset: Int) throws -> [Byte] {
+		bytes.leftPadded(totalBytes: 32)
 	}
 }
 
+/// https://eips.ethereum.org/EIPS/eip-55
 private func checksumEncode(bytes: [Byte]) throws -> String {
 	let address = bytes.toHexString().lowercased()
 	var hasher = SHA3(variant: .keccak256)

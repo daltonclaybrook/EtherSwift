@@ -23,12 +23,11 @@ public extension Collection where Element == Byte {
 struct Bytes32: RawRepresentable, ABIType {
 	var rawValue: [Byte]
 
-	static var encodedTypeName: String {
-		"bytes32"
-	}
+	let encodedTypeName = "bytes32"
+	let headLength = 32
 
-	func encodedHead(tailOffset: Int) throws -> Bytes32 {
-		self
+	func encodedHead(tailOffset: Int) throws -> [Byte] {
+		rawValue
 	}
 }
 

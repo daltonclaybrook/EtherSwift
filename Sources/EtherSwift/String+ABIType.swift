@@ -2,12 +2,11 @@ import BigInt
 import Foundation
 
 extension String: ABIType {
-	static var encodedTypeName: String {
-		"string"
-	}
+	var encodedTypeName: String { "string" }
+	var headLength: Int { 32 }
 
-	func encodedHead(tailOffset: Int) throws -> Bytes32 {
-		Bytes32(tailOffset)
+	func encodedHead(tailOffset: Int) throws -> [Byte] {
+		Bytes32(tailOffset).rawValue
 	}
 
 	func encodeTail(encoder: inout ABIEncoder) throws {
