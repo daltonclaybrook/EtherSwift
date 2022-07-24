@@ -3,6 +3,7 @@ import BigInt
 enum ABIEncodingError: Error {
 	case failedToEncode(ABIType)
 	case invalidHeadBytes(ABIType)
+	case invalidTailAlignment
 }
 
 struct ABIEncoder {
@@ -39,7 +40,10 @@ struct ABIEncoder {
 	}
 
 	/// Append to the tail portion of call data.
-	mutating func appendToTail(bytes: [Byte]) {
+	mutating func appendToTail(bytes: [Byte]) throws {
+		guard bytes.count % 32 == 0 else {
+			throw ABIEncodingError.invalidTailAlignment
+		}
 		tailBytes += bytes
 	}
 

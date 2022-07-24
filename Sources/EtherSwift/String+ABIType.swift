@@ -19,6 +19,6 @@ extension String: ABIType {
 
 		let amountToPad = 32 - stringData.count % 32
 		let stringBytes = Array(stringData).rightPadded(totalBytes: stringData.count + amountToPad)
-		encoder.appendToTail(bytes: stringBytes)
+		try encoder.appendToTail(bytes: stringBytes)
 	}
 }
