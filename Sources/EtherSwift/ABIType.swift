@@ -1,6 +1,6 @@
 protocol ABIType: Encodable {
-	/// The encoded type name
-	var encodedTypeName: String { get }
+	/// The encoded type
+	var encodedType: EncodedType { get }
 	/// The length of the encoded head in bytes. Most primitive types will return
 	/// 32, but some types may return a higher number, such as fixed-length arrays.
 	var headLength: Int { get }

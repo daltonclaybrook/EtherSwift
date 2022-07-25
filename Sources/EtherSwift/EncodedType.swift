@@ -1,4 +1,4 @@
-indirect enum EncodedType {
+indirect enum EncodedType: Equatable, Encodable {
 	case uint(bits: Int)
 	case int(bits: Int)
 	case address

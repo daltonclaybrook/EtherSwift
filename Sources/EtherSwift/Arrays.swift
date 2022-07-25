@@ -5,15 +5,15 @@ enum ArrayError: Error {
 /// A fixed-length array, e.g. `string[3]`
 struct FixedArray<T: ABIType>: ABIType {
 	/// The encoded type name of the elements in this array. Each instance of `T` is
-	/// expected to return this same value from `encodedTypeName`.
-	let elementEncodedTypeName: String
+	/// expected to return this same value from `encodedType`.
+	let elementType: EncodedType
 	/// The static length of the array, which is part of the type name
 	let length: Int
 	/// The underlying storage for the fixed array
 	var underlying: [T] = []
 
-	var encodedTypeName: String {
-		"\(elementEncodedTypeName)[\(length)]"
+	var encodedType: EncodedType {
+		.fixedArray(length: length, element: elementType)
 	}
 
 	var headLength: Int {
@@ -34,13 +34,13 @@ struct FixedArray<T: ABIType>: ABIType {
 /// A variable-length array, e.g. `uint32[]`
 struct VariableArray<T: ABIType>: ABIType {
 	/// The encoded type name of the elements in this array. Each instance of `T` is
-	/// expected to return this same value from `encodedTypeName`.
-	let elementEncodedTypeName: String
+	/// expected to return this same value from `encodedType`.
+	let elementType: EncodedType
 	/// The underlying storage for the variable array
 	var underlying: [T] = []
 
-	var encodedTypeName: String {
-		"\(elementEncodedTypeName)[]"
+	var encodedType: EncodedType {
+		.variableArray(element: elementType)
 	}
 
 	/// Variable arrays are considered dynamic types, and thus have a static head length
@@ -57,3 +57,9 @@ struct VariableArray<T: ABIType>: ABIType {
 		}
 	}
 }
+
+//extension VariableArray {
+//	init(_ elements: [T]) throws {
+//
+//	}
+//}

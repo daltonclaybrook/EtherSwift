@@ -52,7 +52,7 @@ extension Address {
 }
 
 extension Address: ABIType {
-	var encodedTypeName: String { "address" }
+	var encodedType: EncodedType { .address }
 	var headLength: Int { 32 }
 
 	func encode(with encoder: inout ABIEncoder) throws {

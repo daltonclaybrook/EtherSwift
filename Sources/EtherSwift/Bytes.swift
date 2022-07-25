@@ -23,7 +23,7 @@ public extension Collection where Element == Byte {
 struct Bytes32: RawRepresentable, ABIType {
 	var rawValue: [Byte]
 
-	let encodedTypeName = "bytes32"
+	let encodedType: EncodedType = .bytes(count: 32)
 	let headLength = 32
 
 	func encode(with encoder: inout ABIEncoder) throws {

@@ -2,7 +2,7 @@ import BigInt
 import Foundation
 
 extension String: ABIType {
-	var encodedTypeName: String { "string" }
+	var encodedType: EncodedType { .string }
 	var headLength: Int { 32 }
 
 	func encode(with encoder: inout ABIEncoder) throws {
