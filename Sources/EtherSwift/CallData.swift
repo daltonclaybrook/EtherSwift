@@ -30,18 +30,6 @@ extension ContractFunction {
 		self.parametersTypes = parametersTypes
 		self.selector = Array(hash[0..<4])
 	}
-
-	/// Verify that the provided list of function arguments match the function parameters
-	func validate(arguments: [ABIType]) throws {
-		guard parametersTypes.count == arguments.count else {
-			throw ContractFunctionError.invalidArguments(self, arguments)
-		}
-		for (argument, parametersType) in zip(arguments, parametersTypes) {
-			if argument.encodedType != parametersType {
-				throw ContractFunctionError.invalidArguments(self, arguments)
-			}
-		}
-	}
 }
 
 // MARK: - Free helper functions

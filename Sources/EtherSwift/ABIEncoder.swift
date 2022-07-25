@@ -1,6 +1,8 @@
 import BigInt
 
 enum ABIEncodingError: Error {
+	case invalidType(expected: EncodedType, actual: EncodedType)
+	case invalidArrayType(expected: EncodedType, actual: EncodedArrayType)
 	case failedToEncode(ABIType)
 	case invalidHeadBytes(ABIType)
 	case invalidCallDataAlignment
@@ -26,16 +28,15 @@ struct ABIEncoder {
 		self.function = function
 		self.arguments = arguments
 		self.totalHeadLength = arguments.map(\.headLength).reduce(0, +)
-		try function.validate(arguments: arguments)
 	}
 
 	/// Encode and return the call data for the contract function
 	mutating func encodeCallData() throws -> [Byte] {
 		headBytes = []
 		tailBytes = []
-		for argument in arguments {
+		for (argument, parameterType) in zip(arguments, function.parametersTypes) {
 			let initialHeadCount = headBytes.count
-			try argument.encode(with: &self)
+			try argument.encode(parameterType, with: &self)
 			let encodedHeadCount = headBytes.count - initialHeadCount
 			guard encodedHeadCount == argument.headLength else {
 				throw ABIEncodingError.invalidHeadBytes(argument)

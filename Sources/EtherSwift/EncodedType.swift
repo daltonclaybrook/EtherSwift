@@ -11,6 +11,12 @@ indirect enum EncodedType: Equatable, Encodable {
 	case tuple(elements: [EncodedType])
 }
 
+/// Used in some thrown errors
+enum EncodedArrayType {
+	case fixedArray
+	case variableArray
+}
+
 extension EncodedType {
 	/// The encoded type name used in function signature calculation
 	var encodedName: String {

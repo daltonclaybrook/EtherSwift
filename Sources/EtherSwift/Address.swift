@@ -52,10 +52,12 @@ extension Address {
 }
 
 extension Address: ABIType {
-	var encodedType: EncodedType { .address }
 	var headLength: Int { 32 }
 
-	func encode(with encoder: inout ABIEncoder) throws {
+	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+		guard type == .address else {
+			throw ABIEncodingError.invalidType(expected: type, actual: .address)
+		}
 		try encoder.appendStatic(bytes: bytes.leftPadded(totalBytes: 32))
 	}
 }

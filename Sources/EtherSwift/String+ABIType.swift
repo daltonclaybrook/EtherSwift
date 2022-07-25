@@ -2,10 +2,13 @@ import BigInt
 import Foundation
 
 extension String: ABIType {
-	var encodedType: EncodedType { .string }
 	var headLength: Int { 32 }
 
-	func encode(with encoder: inout ABIEncoder) throws {
+	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+		guard type == .string else {
+			throw ABIEncodingError.invalidType(expected: type, actual: .string)
+		}
+
 		guard let stringData = data(using: .utf8) else {
 			throw ABIEncodingError.failedToEncode(self)
 		}
