@@ -30,9 +30,9 @@ let package = Package(
 			"CryptoSwift"
 		]),
 		.plugin(
-			name: "GenerateInts",
+			name: "GenerateTypes",
 			capability: .command(
-				intent: .custom(verb: "generate-ints", description: "Generate Ethereum-compatible integers"),
+				intent: .custom(verb: "generate-types", description: "Generate Ethereum-compatible types"),
 				permissions: [.writeToPackageDirectory(reason: "To add generated files")]
 			),
 			dependencies: []

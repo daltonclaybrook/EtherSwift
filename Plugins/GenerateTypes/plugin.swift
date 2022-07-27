@@ -8,7 +8,7 @@ struct GenerateInts: CommandPlugin {
 		let targets = try context.package.targets(named: targetNames)
 
 		let fileManager = FileManager.default
-		let fileContents = generatedFileContents()
+		let fileContents = generatedIntegerFileContents()
 
 		for target in targets {
 			let generatedFolder = target.directory.appending(["Generated"])
@@ -28,7 +28,7 @@ struct GenerateInts: CommandPlugin {
 		}
 	}
 
-	private func generatedFileContents() -> String {
+	private func generatedIntegerFileContents() -> String {
 		let existingIntBits = [8, 16, 32, 64]
 		let implementations = (1...32).flatMap { index -> [String] in
 			let bits = index * 8
