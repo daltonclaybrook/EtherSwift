@@ -5,9 +5,7 @@ extension String: ABIType {
 	public var headLength: Int { 32 }
 
 	public func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
-		guard type == .string else {
-			throw ABIEncodingError.invalidType(expected: type, actual: .string)
-		}
+		try type.assertEquals(type: .string)
 
 		guard let stringData = data(using: .utf8) else {
 			throw ABIEncodingError.failedToEncode(self)
