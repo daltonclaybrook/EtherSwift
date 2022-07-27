@@ -1,3 +1,5 @@
+// THIS IS A GENERATED FILE
+
 enum BytesEncodingError: Error {
 	case invalidBytesCount(expected: Int, actual: Int)
 }

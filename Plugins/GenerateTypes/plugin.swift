@@ -57,6 +57,8 @@ struct GenerateInts: CommandPlugin {
 		let implementations = (1...32).map(bytesImplementation(bits:))
 		let contents = implementations.joined(separator: "\n\n")
 		return """
+			// THIS IS A GENERATED FILE
+
 			enum BytesEncodingError: Error {
 				case invalidBytesCount(expected: Int, actual: Int)
 			}
