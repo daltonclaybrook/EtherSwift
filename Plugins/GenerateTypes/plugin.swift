@@ -73,8 +73,6 @@ struct GenerateInts: CommandPlugin {
 		return """
 			/// Corresponds to the `\(encodedTypePrefix)\(bits)` type in Solidity
 			public struct \(typeName): RawRepresentable, ABIType, ExpressibleByIntegerLiteral {
-				public typealias IntegerLiteralType = \(literalTypeName)
-
 				public var rawValue: \(rawValueType)
 				public let headLength = 32
 
