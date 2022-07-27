@@ -2,7 +2,7 @@ import Foundation
 import PackagePlugin
 
 @main
-struct GenerateInts: CommandPlugin {
+struct GenerateTypes: CommandPlugin {
 	func performCommand(context: PluginContext, arguments: [String]) async throws {
 		let targetNames = targetNamesFrom(arguments: arguments)
 		let targets = try context.package.targets(named: targetNames)
