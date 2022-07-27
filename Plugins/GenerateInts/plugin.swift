@@ -55,6 +55,7 @@ struct GenerateInts: CommandPlugin {
 		let literalTypeName = "\(typeNamePrefix)64"
 		let encodedTypePrefix = typeNamePrefix.lowercased()
 		return """
+			/// Corresponds to the `\(encodedTypePrefix)\(bits)` type in Solidity
 			public struct \(typeName): RawRepresentable, ABIType, ExpressibleByIntegerLiteral {
 				public typealias IntegerLiteralType = \(literalTypeName)
 
