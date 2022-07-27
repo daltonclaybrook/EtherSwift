@@ -8,14 +8,14 @@ enum ABIEncodingError: Error {
 	case invalidCallDataAlignment
 }
 
-struct ABIEncoder {
-	let function: ContractFunction
-	let arguments: [ABIType]
+public struct ABIEncoder {
+	public let function: ContractFunction
+	public let arguments: [ABIType]
 	/// The total length of the head data not including the function selector
-	let totalHeadLength: Int
+	public let totalHeadLength: Int
 
 	/// The current tail offset. The next byte added to tail will have this offset.
-	var tailOffset: Int {
+	public var tailOffset: Int {
 		totalHeadLength + tailBytes.count
 	}
 
@@ -24,14 +24,14 @@ struct ABIEncoder {
 	/// The tail bytes that have been encoded up to this point
 	private var tailBytes: [Byte] = []
 
-	init(function: ContractFunction, arguments: [ABIType]) throws {
+	public init(function: ContractFunction, arguments: [ABIType]) throws {
 		self.function = function
 		self.arguments = arguments
 		self.totalHeadLength = arguments.map(\.headLength).reduce(0, +)
 	}
 
 	/// Encode and return the call data for the contract function
-	mutating func encodeCallData() throws -> [Byte] {
+	public mutating func encodeCallData() throws -> [Byte] {
 		headBytes = []
 		tailBytes = []
 		for (argument, parameterType) in zip(arguments, function.parametersTypes) {
@@ -49,7 +49,7 @@ struct ABIEncoder {
 	/// "head" portion of the call data, but can be added to the "tail" portion instead
 	/// if the static type being encoded is the child of a dynamic type, e.g. static
 	/// elements of a dynamic array.
-	mutating func appendStatic(bytes: [Byte]) throws {
+	public mutating func appendStatic(bytes: [Byte]) throws {
 		guard bytes.count % 32 == 0 else {
 			throw ABIEncodingError.invalidCallDataAlignment
 		}
@@ -62,7 +62,7 @@ struct ABIEncoder {
 	}
 
 	/// Append encoded data to the "tail" portion of the call data
-	mutating func appendDynamic(bytes: [Byte]) throws {
+	public mutating func appendDynamic(bytes: [Byte]) throws {
 		guard bytes.count % 32 == 0 else {
 			throw ABIEncodingError.invalidCallDataAlignment
 		}
@@ -73,14 +73,14 @@ struct ABIEncoder {
 
 	/// Calling `appendStatic` from within the provided block ensures that the bytes
 	/// will be appended to the tail, not the head
-	mutating func ensureTail(block: (inout ABIEncoder) throws -> Void) rethrows {
+	public mutating func ensureTail(block: (inout ABIEncoder) throws -> Void) rethrows {
 		tailStack += 1
 		try block(&self)
 		tailStack -= 1
 	}
 }
 
-extension ABIEncoder {
+public extension ABIEncoder {
 	/// Convenience for appending an integer
 	mutating func appendStatic<T: BinaryInteger>(value: T) throws {
 		try appendStatic(bytes: value.leftPadded32Bytes)

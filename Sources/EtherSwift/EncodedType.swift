@@ -1,4 +1,4 @@
-indirect enum EncodedType: Equatable, Encodable {
+public indirect enum EncodedType: Equatable, Encodable {
 	case uint(bits: Int)
 	case int(bits: Int)
 	case address
@@ -17,7 +17,7 @@ enum EncodedArrayType {
 	case variableArray
 }
 
-extension EncodedType {
+public extension EncodedType {
 	/// The encoded type name used in function signature calculation
 	var encodedName: String {
 		switch self {
@@ -53,6 +53,13 @@ extension EncodedType {
 			self = type
 		} else {
 			return nil
+		}
+	}
+
+	/// Throws an error if the provided type is not equal to the receiver
+	func assertEquals(type: EncodedType) throws {
+		guard self == type else {
+			throw ABIEncodingError.invalidType(expected: self, actual: type)
 		}
 	}
 }

@@ -1,20 +1,20 @@
 import CryptoSwift
 
 /// Information about a function in a Solidity smart contract
-struct ContractFunction {
+public struct ContractFunction {
 	/// The name of the function without arguments or return type
-	var name: String
+	public var name: String
 	/// The types of parameters the function accepts
-	var parametersTypes: [EncodedType]
+	public var parametersTypes: [EncodedType]
 	/// The four-byte function selector, which is computed from the function signature
-	var selector: [Byte]
+	public var selector: [Byte]
 }
 
-enum ContractFunctionError: Error {
+public enum ContractFunctionError: Error {
 	case invalidArguments(ContractFunction, [ABIType])
 }
 
-extension ContractFunction {
+public extension ContractFunction {
 	/// The canonical function signature used to calculate the selector
 	var signature: String {
 		makeSignature(name: name, parametersTypes: parametersTypes)

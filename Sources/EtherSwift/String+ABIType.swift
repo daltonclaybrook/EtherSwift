@@ -2,9 +2,9 @@ import BigInt
 import Foundation
 
 extension String: ABIType {
-	var headLength: Int { 32 }
+	public var headLength: Int { 32 }
 
-	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+	public func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
 		guard type == .string else {
 			throw ABIEncodingError.invalidType(expected: type, actual: .string)
 		}
