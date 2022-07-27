@@ -116,7 +116,7 @@ struct GenerateInts: CommandPlugin {
 					guard rawValue.count == \(bits) else {
 						throw BytesEncodingError.invalidBytesCount(expected: \(bits), actual: rawValue.count)
 					}
-					try encoder.appendStatic(bytes: rawValue)
+					try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 				}
 			}
 			"""

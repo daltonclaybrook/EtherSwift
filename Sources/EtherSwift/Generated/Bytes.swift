@@ -22,7 +22,7 @@ public struct Bytes1: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 1 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 1, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -44,7 +44,7 @@ public struct Bytes2: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 2 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 2, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -66,7 +66,7 @@ public struct Bytes3: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 3 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 3, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -88,7 +88,7 @@ public struct Bytes4: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 4 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 4, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -110,7 +110,7 @@ public struct Bytes5: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 5 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 5, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -132,7 +132,7 @@ public struct Bytes6: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 6 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 6, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -154,7 +154,7 @@ public struct Bytes7: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 7 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 7, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -176,7 +176,7 @@ public struct Bytes8: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 8 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 8, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -198,7 +198,7 @@ public struct Bytes9: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 9 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 9, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -220,7 +220,7 @@ public struct Bytes10: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 10 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 10, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -242,7 +242,7 @@ public struct Bytes11: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 11 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 11, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -264,7 +264,7 @@ public struct Bytes12: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 12 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 12, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -286,7 +286,7 @@ public struct Bytes13: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 13 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 13, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -308,7 +308,7 @@ public struct Bytes14: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 14 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 14, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -330,7 +330,7 @@ public struct Bytes15: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 15 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 15, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -352,7 +352,7 @@ public struct Bytes16: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 16 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 16, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -374,7 +374,7 @@ public struct Bytes17: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 17 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 17, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -396,7 +396,7 @@ public struct Bytes18: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 18 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 18, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -418,7 +418,7 @@ public struct Bytes19: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 19 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 19, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -440,7 +440,7 @@ public struct Bytes20: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 20 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 20, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -462,7 +462,7 @@ public struct Bytes21: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 21 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 21, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -484,7 +484,7 @@ public struct Bytes22: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 22 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 22, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -506,7 +506,7 @@ public struct Bytes23: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 23 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 23, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -528,7 +528,7 @@ public struct Bytes24: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 24 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 24, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -550,7 +550,7 @@ public struct Bytes25: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 25 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 25, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -572,7 +572,7 @@ public struct Bytes26: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 26 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 26, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -594,7 +594,7 @@ public struct Bytes27: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 27 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 27, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -616,7 +616,7 @@ public struct Bytes28: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 28 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 28, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -638,7 +638,7 @@ public struct Bytes29: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 29 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 29, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -660,7 +660,7 @@ public struct Bytes30: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 30 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 30, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -682,7 +682,7 @@ public struct Bytes31: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 31 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 31, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
 
@@ -704,6 +704,6 @@ public struct Bytes32: RawRepresentable, ABIType, ExpressibleByArrayLiteral {
 		guard rawValue.count == 32 else {
 			throw BytesEncodingError.invalidBytesCount(expected: 32, actual: rawValue.count)
 		}
-		try encoder.appendStatic(bytes: rawValue)
+		try encoder.appendStatic(bytes: rawValue.rightPadded(totalBytes: 32))
 	}
 }
