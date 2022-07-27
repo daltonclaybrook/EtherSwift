@@ -8,14 +8,17 @@ struct GenerateInts: CommandPlugin {
 		let targets = try context.package.targets(named: targetNames)
 
 		let fileManager = FileManager.default
-		let fileContents = generatedIntegerFileContents()
+		let integerFileContents = generatedIntegerFileContents()
+		let bytesFileContents = generateBytesFileContents()
 
 		for target in targets {
 			let generatedFolder = target.directory.appending(["Generated"])
-			let filePath = generatedFolder.appending(["Integers.swift"])
+			let integerFilePath = generatedFolder.appending(["Integers.swift"])
+			let bytesFilePath = generatedFolder.appending(["Bytes.swift"])
 
 			try fileManager.createDirectory(atPath: generatedFolder.string, withIntermediateDirectories: true)
-			try fileContents.write(toFile: filePath.string, atomically: true, encoding: .utf8)
+			try integerFileContents.write(toFile: integerFilePath.string, atomically: true, encoding: .utf8)
+			try bytesFileContents.write(toFile: bytesFilePath.string, atomically: true, encoding: .utf8)
 		}
 	}
 
@@ -50,6 +53,19 @@ struct GenerateInts: CommandPlugin {
 			"""
 	}
 
+	private func generateBytesFileContents() -> String {
+		let implementations = (1...32).map(bytesImplementation(bits:))
+		let contents = implementations.joined(separator: "\n\n")
+		return """
+			enum BytesEncodingError: Error {
+				case invalidBytesCount(expected: Int, actual: Int)
+			}
+
+			\(contents)
+
+			"""
+	}
+
 	private func integerImplementation(typeNamePrefix: String, bits: Int, rawValueType: String, paddingByte: String) -> String {
 		let typeName = "\(typeNamePrefix)\(bits)"
 		let literalTypeName = "\(typeNamePrefix)64"
@@ -74,6 +90,33 @@ struct GenerateInts: CommandPlugin {
 					try type.assertEquals(type: .\(encodedTypePrefix)(bits: \(bits)))
 					let bytes = rawValue.serialize().leftPadded(totalBytes: 32, paddingByte: \(paddingByte))
 					try encoder.appendStatic(bytes: bytes)
+				}
+			}
+			"""
+	}
+
+	private func bytesImplementation(bits: Int) -> String {
+		let typeName = "Bytes\(bits)"
+		return """
+			/// Corresponds to the `\(typeName.lowercased())` type in Solidity
+			public struct \(typeName): RawRepresentable, ABIType, ExpressibleByArrayLiteral {
+				public var rawValue: [Byte]
+				public let headLength = 32
+
+				public init(rawValue: [Byte]) {
+					self.rawValue = rawValue
+				}
+
+				public init(arrayLiteral elements: Byte...) {
+					self.rawValue = elements
+				}
+
+				public func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+					try type.assertEquals(type: .bytes(count: \(bits)))
+					guard rawValue.count == \(bits) else {
+						throw BytesEncodingError.invalidBytesCount(expected: \(bits), actual: rawValue.count)
+					}
+					try encoder.appendStatic(bytes: rawValue)
 				}
 			}
 			"""

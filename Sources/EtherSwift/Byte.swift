@@ -19,16 +19,3 @@ public extension Collection where Element == Byte {
 		return self + [Byte](repeating: paddingByte, count: countToPad)
 	}
 }
-
-struct Bytes32: RawRepresentable, ABIType {
-	var rawValue: [Byte]
-
-	let headLength = 32
-
-	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
-		guard type == .bytes(count: 32) else {
-			throw ABIEncodingError.invalidType(expected: type, actual: .bytes(count: 32))
-		}
-		try encoder.appendStatic(bytes: rawValue)
-	}
-}
