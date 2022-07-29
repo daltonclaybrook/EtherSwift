@@ -10,4 +10,12 @@ extension BinaryInteger {
 			return BigUInt(self).serialize().leftPadded(totalBytes: 32)
 		}
 	}
+
+	var hexString: String {
+		if Self.isSigned {
+			return BigInt(self).serialize().toHexString().hexPrefixed
+		} else {
+			return BigUInt(self).serialize().toHexString().hexPrefixed
+		}
+	}
 }

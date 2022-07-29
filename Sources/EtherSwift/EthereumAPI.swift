@@ -14,7 +14,16 @@ public final class EthereumAPI {
 		self.jsonRPCURL = jsonRPCURL
 	}
 
-	public func perform<Params: Encodable, Success: Decodable, Failure: Decodable>(method: EthereumRPCMethod, params: Params) async throws -> JSONRPCResponse<Success, Failure> {
+	public func call(function: ContractFunction, arguments: [ABIType]) async throws {
+		var encoder = ABIEncoder()
+		let callData = try encoder.encodeCallData(for: function, arguments: arguments)
+		
+	}
+
+	public func perform<Params: Encodable, Success: Decodable>(
+		method: EthereumRPCMethod,
+		params: Params
+	) async throws -> JSONRPCResponse<Success, String> {
 		var urlRequest = URLRequest(url: jsonRPCURL)
 		urlRequest.httpMethod = "POST"
 		urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

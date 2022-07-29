@@ -19,3 +19,10 @@ extension String: ABIType {
 		try encoder.appendDynamic(bytes: stringBytes)
 	}
 }
+
+extension String {
+	var hexPrefixed: String {
+		guard !hasPrefix("0x") else { return self }
+		return "0x\(self)"
+	}
+}

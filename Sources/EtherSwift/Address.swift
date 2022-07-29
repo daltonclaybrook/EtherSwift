@@ -5,16 +5,16 @@ enum AddressError: Error {
 	case invalidAddressBytes([Byte])
 }
 
-struct Address: Equatable {
+public struct Address: Equatable {
 	/// The 20 bytes of the address
-	let bytes: [Byte]
+	public let bytes: [Byte]
 	/// The hex string representation of the address
-	let string: String
+	public let string: String
 	/// Whether the string representation has a valid EIP-55 checksum
-	let hasValidChecksum: Bool
+	public let hasValidChecksum: Bool
 }
 
-extension Address {
+public extension Address {
 	/// Initialize an address from a string
 	init(string: String) throws {
 		guard string.hasPrefix("0x"), string.count == 42 else {
@@ -52,11 +52,18 @@ extension Address {
 }
 
 extension Address: ABIType {
-	var headLength: Int { 32 }
+	public var headLength: Int { 32 }
 
-	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+	public func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
 		try type.assertEquals(type: .address)
 		try encoder.appendStatic(bytes: bytes.leftPadded(totalBytes: 32))
+	}
+}
+
+extension Address: Encodable {
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.singleValueContainer()
+		try container.encode(string)
 	}
 }
 
