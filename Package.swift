@@ -4,6 +4,12 @@ import PackageDescription
 
 let package = Package(
 	name: "EtherSwift",
+	platforms: [
+		.macOS(.v12),
+		.iOS(.v15),
+		.tvOS(.v15),
+		.watchOS(.v8)
+	],
 	products: [
 		.library(name: "EtherSwift", targets: ["EtherSwift"]),
 		.executable(name: "EtherSwiftDemo", targets: ["EtherSwiftDemo"])

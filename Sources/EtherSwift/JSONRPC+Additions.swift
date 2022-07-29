@@ -1,6 +1,6 @@
 import Foundation
 
-extension JSONRPCRequest {
+public extension JSONRPCRequest {
 	enum CodingKeys: String, CodingKey {
 		case rpcVersion = "jsonrpc"
 		case method
@@ -9,7 +9,7 @@ extension JSONRPCRequest {
 	}
 }
 
-extension JSONRPCResponse {
+public extension JSONRPCResponse {
 	enum CodingKeys: String, CodingKey {
 		case rpcVersion = "jsonrpc"
 		case result
