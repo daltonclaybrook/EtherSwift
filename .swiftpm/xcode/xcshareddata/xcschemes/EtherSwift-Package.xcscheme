@@ -90,6 +90,34 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GenerateContracts"
+               BuildableName = "GenerateContracts"
+               BlueprintName = "GenerateContracts"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GenerateContractsExec"
+               BuildableName = "GenerateContractsExec"
+               BlueprintName = "GenerateContractsExec"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -125,9 +153,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "GenerateIntsExec"
-            BuildableName = "GenerateIntsExec"
-            BlueprintName = "GenerateIntsExec"
+            BlueprintIdentifier = "GenerateContractsExec"
+            BuildableName = "GenerateContractsExec"
+            BlueprintName = "GenerateContractsExec"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -151,9 +179,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "GenerateIntsExec"
-            BuildableName = "GenerateIntsExec"
-            BlueprintName = "GenerateIntsExec"
+            BlueprintIdentifier = "GenerateContractsExec"
+            BuildableName = "GenerateContractsExec"
+            BlueprintName = "GenerateContractsExec"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -12,7 +12,8 @@ let package = Package(
 	],
 	products: [
 		.library(name: "EtherSwift", targets: ["EtherSwift"]),
-		.executable(name: "EtherSwiftDemo", targets: ["EtherSwiftDemo"])
+		.plugin(name: "GenerateContracts", targets: ["GenerateContracts"]),
+		.executable(name: "EtherSwiftDemo", targets: ["EtherSwiftDemo"]),
 	],
 	dependencies: [
 		.package(url: "https://github.com/attaswift/BigInt.git", from: "5.3.0"),
@@ -26,10 +27,6 @@ let package = Package(
 				"CryptoSwift"
 			]
 		),
-		.executableTarget(name: "EtherSwiftDemo", dependencies: [
-			"EtherSwift",
-			"BigInt"
-		]),
 		.testTarget(name: "EtherSwiftTests", dependencies: [
 			"EtherSwift",
 			"BigInt",
@@ -42,6 +39,20 @@ let package = Package(
 				permissions: [.writeToPackageDirectory(reason: "To add generated files")]
 			),
 			dependencies: []
+		),
+		.plugin(
+			name: "GenerateContracts",
+			capability: .buildTool(),
+			dependencies: ["GenerateContractsExec"]
+		),
+		.executableTarget(name: "GenerateContractsExec", dependencies: ["EtherSwift"]),
+		.executableTarget(
+			name: "EtherSwiftDemo",
+			dependencies: [
+				"EtherSwift",
+				"BigInt"
+			],
+			plugins: ["GenerateContracts"]
 		)
 	]
 )
