@@ -14,10 +14,18 @@ public final class EthereumAPI {
 		self.jsonRPCURL = jsonRPCURL
 	}
 
-	public func call(function: ContractFunction, arguments: [ABIType]) async throws {
+	public func call(
+		function: ContractFunction,
+		from: Address,
+		to: Address,
+		arguments: [ABIType],
+		options: TransactionOptions? = nil
+	) async throws {
 		var encoder = ABIEncoder()
 		let callData = try encoder.encodeCallData(for: function, arguments: arguments)
-		
+		let call = TransactionCall(from: from, to: to, options: options, data: callData)
+		let response: JSONRPCResponse<String, String> = try await perform(method: .call, params: call)
+		print(response)
 	}
 
 	public func perform<Params: Encodable, Success: Decodable>(

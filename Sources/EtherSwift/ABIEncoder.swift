@@ -3,6 +3,8 @@ import BigInt
 enum ABIEncodingError: Error {
 	case invalidType(expected: EncodedType, actual: EncodedType)
 	case invalidArrayType(expected: EncodedType, actual: EncodedArrayType)
+	case invalidTupleType(expected: EncodedType)
+	case invalidTupleLength(expected: Int, actual: Int)
 	case failedToEncode(ABIType)
 	case invalidHeadBytes(ABIType)
 	case invalidCallDataAlignment
