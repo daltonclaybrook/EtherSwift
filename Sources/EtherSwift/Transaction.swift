@@ -25,8 +25,13 @@ public struct TransactionCallBuilder {
 		)
 	}
 
-	func call(from: Address, options: TransactionOptions? = nil) {
-
+	/// Convenience function for invoking the `eth_call` RPC method
+	/// - Parameters:
+	///   - from: The address to call the transaction from
+	///   - options: An optional set of transaction options, e.g. gas price
+	func call(from: Address, options: TransactionOptions? = nil) async throws {
+		let transaction = try build(from: from, options: options)
+		try await api.call(transaction: transaction)
 	}
 
 	func send(from: Address, options: TransactionOptions? = nil) {

@@ -3,18 +3,23 @@ enum ArrayError: Error {
 }
 
 /// A fixed-length array, e.g. `string[3]`
-struct FixedArray<T: ABIType>: ABIType {
+public struct FixedArray<T: ABIType>: ABIType {
 	/// The static length of the array, which is part of the type name
-	let length: Int
+	public let length: Int
 	/// The underlying storage for the fixed array
-	var underlying: [T] = []
+	public var underlying: [T] = []
 
-	var headLength: Int {
+	public init(length: Int, underlying: [T] = []) {
+		self.length = length
+		self.underlying = underlying
+	}
+
+	public var headLength: Int {
 		assert(underlying.count == length, "Underlying array is invalid")
 		return underlying.map(\.headLength).reduce(0, +)
 	}
 
-	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+	public func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
 		guard case .fixedArray(let length, let elementType) = type, length == self.length else {
 			throw ABIEncodingError.invalidArrayType(expected: type, actual: .fixedArray)
 		}
@@ -29,15 +34,19 @@ struct FixedArray<T: ABIType>: ABIType {
 }
 
 /// A variable-length array, e.g. `uint32[]`
-struct VariableArray<T: ABIType>: ABIType {
+public struct VariableArray<T: ABIType>: ABIType {
 	/// The underlying storage for the variable array
-	var underlying: [T] = []
+	public var underlying: [T]
 
 	/// Variable arrays are considered dynamic types, and thus have a static head length
 	/// of 32, which contains the tail offset of the dynamic data
-	let headLength = 32
+	public let headLength = 32
 
-	func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
+	public init(underlying: [T] = []) {
+		self.underlying = underlying
+	}
+
+	public func encode(_ type: EncodedType, with encoder: inout ABIEncoder) throws {
 		guard case .variableArray(let elementType) = type else {
 			throw ABIEncodingError.invalidArrayType(expected: type, actual: .variableArray)
 		}

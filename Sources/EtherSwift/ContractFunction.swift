@@ -8,6 +8,12 @@ public struct ContractFunction {
 	public var parametersTypes: [EncodedType]
 	/// The four-byte function selector, which is computed from the function signature
 	public var selector: [Byte]
+
+	public init(name: String, parametersTypes: [EncodedType], selector: [Byte]) {
+		self.name = name
+		self.parametersTypes = parametersTypes
+		self.selector = selector
+	}
 }
 
 public enum ContractFunctionError: Error {

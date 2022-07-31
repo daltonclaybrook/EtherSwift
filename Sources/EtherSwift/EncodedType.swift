@@ -45,6 +45,32 @@ public extension EncodedType {
 		}
 	}
 
+	/// The string representation of the Swift type that is used to generate contract code
+	var swiftTypeString: String {
+		switch self {
+		case .uint(let bits):
+			return "UInt\(bits)"
+		case .int(let bits):
+			return "Int\(bits)"
+		case .address:
+			return "Address"
+		case .bool:
+			return "Bool"
+		case .bytes(let count):
+			return "Bytes\(count)"
+		case .string:
+			return "String"
+		case .variableBytes:
+			return "Bytes"
+		case .fixedArray(_, let element):
+			return "[\(element.swiftTypeString)]"
+		case .variableArray(let element):
+			return "[\(element.swiftTypeString)]"
+		case .tuple(_):
+			fatalError("Unimplemented")
+		}
+	}
+
 	/// Attempt to initialize an EncodedType from its string representation
 	init?<S: StringProtocol>(encodedName: S) {
 		if let type = encodedTypeForStaticName(encodedName: encodedName) {

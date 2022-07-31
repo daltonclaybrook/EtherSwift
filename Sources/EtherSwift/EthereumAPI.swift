@@ -6,7 +6,7 @@ enum EthereumAPIError: Error {
 }
 
 public protocol EthereumAPIType {
-
+	func call(transaction: TransactionCall) async throws
 }
 
 public final class EthereumAPI: EthereumAPIType {
@@ -29,6 +29,12 @@ public final class EthereumAPI: EthereumAPIType {
 		let callData = try encoder.encodeCallData(for: function, arguments: arguments)
 		let call = TransactionCall(from: from, to: to, options: options, data: callData)
 		let payload = CallPayload(call: call)
+		let response: JSONRPCResponse<String, String> = try await perform(method: .call, params: payload)
+		print(response)
+	}
+
+	public func call(transaction: TransactionCall) async throws {
+		let payload = CallPayload(call: transaction)
 		let response: JSONRPCResponse<String, String> = try await perform(method: .call, params: payload)
 		print(response)
 	}
