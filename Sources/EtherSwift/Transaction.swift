@@ -16,7 +16,7 @@ public struct TransactionCallBuilder {
 	/// - Parameters:
 	///   - from: The address that the transaction will be sent from
 	///   - options: An optional set of transaction options, e.g. gas price
-	func build(from: Address? = nil, options: TransactionOptions? = nil) throws -> TransactionCall {
+	public func build(from: Address? = nil, options: TransactionOptions? = nil) throws -> TransactionCall {
 		TransactionCall(
 			from: from,
 			to: contractAddress,
@@ -29,16 +29,17 @@ public struct TransactionCallBuilder {
 	/// - Parameters:
 	///   - from: The address to call the transaction from
 	///   - options: An optional set of transaction options, e.g. gas price
-	func call(from: Address, options: TransactionOptions? = nil) async throws {
+	public func call(from: Address, options: TransactionOptions? = nil) async throws {
 		let transaction = try build(from: from, options: options)
 		try await api.call(transaction: transaction)
 	}
 
-	func send(from: Address, options: TransactionOptions? = nil) {
-
+	public func send(from: Address, options: TransactionOptions? = nil) {
+		// todo
 	}
 
-	func estimateGas(from: Address? = nil, options: TransactionOptions? = nil) {
+	public func estimateGas(from: Address? = nil, options: TransactionOptions? = nil) {
+		// todo
 	}
 
 	func encodeABI() throws -> [Byte] {
