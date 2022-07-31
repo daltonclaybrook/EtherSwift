@@ -11,3 +11,4 @@ let bigNumberData = bigNumber.serialize()
 
 let equal = numberData.leftPadded(totalBytes: 32) == Array(bigNumberData).leftPadded(totalBytes: 32)
 print(equal)
+

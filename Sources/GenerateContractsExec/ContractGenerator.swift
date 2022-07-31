@@ -64,28 +64,35 @@ struct ContractGenerator {
 		var arguments: [String] = []
 		// Any necessary transformations from parameters to arguments
 		var transformations: [String] = []
+		// The count of unnamed parameters in this function
+		var unnamedParameters: Int = 0
 
 		for input in function.inputs {
 			guard let type = EncodedType(encodedName: input.type) else {
 				throw ContractGeneratorError.failedToParseEncodedType(input.type)
 			}
+			if input.name.isEmpty {
+				unnamedParameters += 1
+			}
+
+			let inputName = input.name.isEmpty ? "index\(unnamedParameters)" : input.name
 			encodedTypes.append(type)
-			swiftParameters.append("\(input.name): \(type.swiftTypeString)")
+			swiftParameters.append("\(inputName): \(type.swiftTypeString)")
 			parameterTypes.append(".\(type)")
 
 			switch type {
 			case .fixedArray(let length, _):
 				transformations.append(
-					"\(indent)\(indent)let _\(input.name) = FixedArray(length: \(length), underlying: \(input.name))"
+					"\(indent)\(indent)let _\(inputName) = FixedArray(length: \(length), underlying: \(inputName))"
 				)
-				arguments.append("_\(input.name)")
+				arguments.append("_\(inputName)")
 			case .variableArray:
 				transformations.append(
-					"\(indent)\(indent)let _\(input.name) = VariableArray(underlying: \(input.name))"
+					"\(indent)\(indent)let _\(inputName) = VariableArray(underlying: \(inputName))"
 				)
-				arguments.append("_\(input.name)")
+				arguments.append("_\(inputName)")
 			default:
-				arguments.append(input.name)
+				arguments.append(inputName)
 			}
 		}
 
