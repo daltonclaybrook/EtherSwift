@@ -28,6 +28,7 @@ struct ABIFunction: Decodable {
 	/// This can be nil in some cases, like when the type is `constructor`
 	var name: String?
 	var inputs: [ABIInput]
+	var outputs: [ABIOutput]?
 }
 
 struct ABIEvent: Decodable {

@@ -1,8 +1,9 @@
 import BigInt
 
 public struct TransactionCall: Encodable {
-	/// The address the transaction is sent from.
-	public var from: Address
+	/// The address the transaction is sent from. This field is only optional in certain methods
+	/// like `eth_estimateGas`
+	public var from: Address?
 	/// The address the transaction is directed to.
 	public var to: Address
 	/// Hexadecimal value of the gas provided for the transaction execution. eth_call consumes zero gas, but this parameter may be needed by some executions.
@@ -33,7 +34,7 @@ extension TransactionCall {
 
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
-		try container.encode(from, forKey: .from)
+		try container.encodeIfPresent(from, forKey: .from)
 		try container.encode(to, forKey: .to)
 		try container.encodeIfPresent(gas?.hexString, forKey: .gas)
 		try container.encodeIfPresent(gasPrice?.hexString, forKey: .gasPrice)
@@ -43,7 +44,7 @@ extension TransactionCall {
 		try container.encodeIfPresent(data.toHexString().hexPrefixed, forKey: .data)
 	}
 
-	init(from: Address, to: Address, options: TransactionOptions? = nil, data: [Byte]) {
+	init(from: Address?, to: Address, options: TransactionOptions? = nil, data: [Byte]) {
 		self.from = from
 		self.to = to
 		self.gas = options?.gas

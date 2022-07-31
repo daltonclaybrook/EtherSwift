@@ -9,6 +9,8 @@ struct Arguments {
 	let inputFilePath: String
 	/// The file path of the Swift output file
 	let outputFilePath: String
+	/// The name of the contract
+	let contractName: String
 }
 
 @main
@@ -17,7 +19,7 @@ struct GenerateContractsExec {
 	static func main() throws {
 		let arguments = try getArguments()
 		let abi = try parseABI(path: arguments.inputFilePath)
-		print(abi)
+		print("Generating implementation for contract \(arguments.contractName)")
 	}
 
 	// MARK: - Private helpers
@@ -28,9 +30,11 @@ struct GenerateContractsExec {
 			throw GenerateContractsExecError.unexpectedArguments
 		}
 
+		let contractName = arguments[2].bridge().lastPathComponent.bridge().deletingPathExtension
 		return Arguments(
 			inputFilePath: arguments[1],
-			outputFilePath: arguments[2]
+			outputFilePath: arguments[2],
+			contractName: contractName
 		)
 	}
 
@@ -45,5 +49,11 @@ struct GenerateContractsExec {
 		let abiFileData = try Data(contentsOf: abiFileURL)
 		let decoder = JSONDecoder()
 		return try decoder.decode([ABI].self, from: abiFileData)
+	}
+}
+
+extension String {
+	func bridge() -> NSString {
+		self as NSString
 	}
 }

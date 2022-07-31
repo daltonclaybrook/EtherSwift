@@ -5,7 +5,11 @@ enum EthereumAPIError: Error {
 	case invalidHTTPStatusCode(code: Int)
 }
 
-public final class EthereumAPI {
+public protocol EthereumAPIType {
+
+}
+
+public final class EthereumAPI: EthereumAPIType {
 	private let session: URLSession
 	private let jsonRPCURL: URL
 
@@ -24,7 +28,8 @@ public final class EthereumAPI {
 		var encoder = ABIEncoder()
 		let callData = try encoder.encodeCallData(for: function, arguments: arguments)
 		let call = TransactionCall(from: from, to: to, options: options, data: callData)
-		let response: JSONRPCResponse<String, String> = try await perform(method: .call, params: call)
+		let payload = CallPayload(call: call)
+		let response: JSONRPCResponse<String, String> = try await perform(method: .call, params: payload)
 		print(response)
 	}
 
