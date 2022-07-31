@@ -13,7 +13,22 @@ struct ContractGenerator {
 	let indentation: Indentation = .spaces(4)
 
 	func generateContractImplementation(name: String, abi: [ABI]) throws -> String {
+		let components = try abi.compactMap { try generateABI($0) }
+		let componentsBlock = components.joined(separator: "\n\n")
+		let indent = indentation.string
+		return """
+			public struct \(name) {
+			\(indent)public let address: Address
+			\(indent)public let api: EthereumAPIType
 
+			\(indent)public init(address: Address, api: EthereumAPIType) {
+			\(indent)\(indent)self.address = address
+			\(indent)\(indent)self.api = api
+			\(indent)}
+
+			\(componentsBlock)
+			}
+			"""
 	}
 
 	// MARK: - Private helpers

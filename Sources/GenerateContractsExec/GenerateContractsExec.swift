@@ -18,8 +18,12 @@ struct GenerateContractsExec {
 	/// Main entry point into executable
 	static func main() throws {
 		let arguments = try getArguments()
-		let abi = try parseABI(path: arguments.inputFilePath)
 		print("Generating implementation for contract \(arguments.contractName)")
+
+		let abi = try parseABI(path: arguments.inputFilePath)
+		let generator = ContractGenerator()
+		let fileContents = try generator.generateContractImplementation(name: arguments.contractName, abi: abi)
+		try fileContents.write(toFile: arguments.outputFilePath, atomically: true, encoding: .utf8)
 	}
 
 	// MARK: - Private helpers
