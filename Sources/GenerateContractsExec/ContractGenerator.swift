@@ -17,6 +17,8 @@ struct ContractGenerator {
 		let componentsBlock = components.joined(separator: "\n\n")
 		let indent = indentation.string
 		return """
+			import EtherSwift
+
 			public struct \(name) {
 			\(indent)public let address: Address
 			\(indent)public let api: EthereumAPIType
@@ -69,7 +71,7 @@ struct ContractGenerator {
 			}
 			encodedTypes.append(type)
 			swiftParameters.append("\(input.name): \(type.swiftTypeString)")
-			parameterTypes.append("\(type)")
+			parameterTypes.append(".\(type)")
 
 			switch type {
 			case .fixedArray(let length, _):
@@ -105,8 +107,8 @@ struct ContractGenerator {
 			\(indent)\(indent)\(indent)selector: [\(selectorBytesString)]
 			\(indent)\(indent))
 			\(indent)\(indent)return TransactionCallBuilder(
-			\(indent)\(indent)\(indent)api: api,
-			\(indent)\(indent)\(indent)contractAddress: address,
+			\(indent)\(indent)\(indent)api: self.api,
+			\(indent)\(indent)\(indent)contractAddress: self.address,
 			\(indent)\(indent)\(indent)function: function,
 			\(indent)\(indent)\(indent)arguments: [\(argumentsString)]
 			\(indent)\(indent))

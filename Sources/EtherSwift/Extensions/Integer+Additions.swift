@@ -19,3 +19,13 @@ extension BinaryInteger {
 		}
 	}
 }
+
+extension UInt8: ABIType {}
+extension UInt16: ABIType {}
+extension UInt32: ABIType {}
+extension UInt64: ABIType {}
+
+extension Int8: ABIType {}
+extension Int16: ABIType {}
+extension Int32: ABIType {}
+extension Int64: ABIType {}
